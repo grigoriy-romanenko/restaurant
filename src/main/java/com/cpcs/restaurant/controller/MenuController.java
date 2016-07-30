@@ -19,6 +19,11 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    public String menu() {
+        return "menu";
+    }
+
     @RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Category> getCategories() {
         return menuService.getCategories();

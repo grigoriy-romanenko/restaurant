@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    setMenuItems();
     setCategories();
 });
 
@@ -11,6 +10,8 @@ function setCategories() {
                 return new Option(category.title, category.id);
             });
             $("#categories").append(categories);
+            setMenuItems();
+            $("#categories").change();
         },
         error: function() {
             console.error("Error while getting menu categories");
@@ -26,9 +27,9 @@ function setMenuItems() {
             url: "/restaurant/menu/categories/" + categoryId + "/items",
             success: function(response) {
                 var itemsList = $.map(response, function (item) {
-                    return "<li>" + item.title + " " + item.price + "</li>";
+                    return "<tr><td>" + item.title + "</td><td>" + item.price + "</td></tr>";
                 });
-                $("#items").append("<ul>" + itemsList + "</ul>");
+                $("#items").append(itemsList);
             },
             error: function() {
                 console.error("Error while getting menu items");
