@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -20,6 +20,14 @@ public class User implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role")
     private Role role;
+
+    public User() {}
+
+    public User(String username, String password, Role role) {
+        setUsername(username);
+        setPassword(password);
+        setRole(role);
+    }
 
     public Long getId() {
         return id;

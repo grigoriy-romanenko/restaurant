@@ -14,6 +14,13 @@ public class Role implements Serializable {
     @Column
     private String title;
 
+    public Role() {}
+
+    public Role(Long id, String title) {
+        setId(id);
+        setTitle(title);
+    }
+
     public Long getId() {
         return id;
     }
