@@ -2,6 +2,8 @@ package com.cpcs.restaurant.config;
 
 import com.cpcs.restaurant.service.MenuService;
 import com.cpcs.restaurant.service.MenuServiceImpl;
+import com.cpcs.restaurant.service.UserService;
+import com.cpcs.restaurant.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -51,6 +53,11 @@ public class ApplicationConfig {
     @Bean
     public MenuService menuService() {
         return new MenuServiceImpl();
+    }
+
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl();
     }
 
 }
