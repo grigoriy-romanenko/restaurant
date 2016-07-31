@@ -12,7 +12,10 @@ public class User implements Serializable {
     private Long id;
 
     @Column
-    private String name;
+    private String username;
+
+    @Column
+    private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role")
@@ -26,12 +29,20 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Role getRole() {
@@ -48,14 +59,16 @@ public class User implements Serializable {
         if (!(o instanceof User)) return false;
         User user = (User) o;
         if (!id.equals(user.id)) return false;
-        if (!name.equals(user.name)) return false;
+        if (!username.equals(user.username)) return false;
+        if (!password.equals(user.password)) return false;
         return role.equals(user.role);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + name.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
         result = 31 * result + role.hashCode();
         return result;
     }

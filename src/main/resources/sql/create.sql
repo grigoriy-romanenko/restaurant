@@ -20,9 +20,10 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE users (
-  id   INTEGER AUTO_INCREMENT,
-  name VARCHAR2(50) NOT NULL,
-  role INTEGER      NOT NULL,
+  id       INTEGER AUTO_INCREMENT,
+  username VARCHAR2(50)  UNIQUE NOT NULL,
+  password VARCHAR2(100) NOT NULL,
+  role     INTEGER       NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (role) REFERENCES roles (id)
 );

@@ -12,10 +12,12 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Override
     public List<MenuItem> getMenuItems(Long categoryId) {
         return categoryRepository.findOne(categoryId).getMenuItems();
     }
 
+    @Override
     public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
