@@ -11,7 +11,7 @@ import java.util.List;
 public class Category implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -61,6 +61,11 @@ public class Category implements Serializable {
         result = 31 * result + title.hashCode();
         result = 31 * result + menuItems.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" + "id=" + id + ", title=" + title + "}";
     }
 
 }

@@ -9,5 +9,6 @@ public interface MenuService {
 
     List<MenuItem> getMenuItems(Long categoryId);
     List<Category> getCategories();
+    void createMenuItem(MenuItem menuItem);
 
 }

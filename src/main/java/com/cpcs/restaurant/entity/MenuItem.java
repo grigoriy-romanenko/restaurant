@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class MenuItem implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -73,4 +73,12 @@ public class MenuItem implements Serializable {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "id=" + id +
+                ", title=" + title +
+                ", category=" + category +
+                ", price=" + price + "}";
+    }
 }

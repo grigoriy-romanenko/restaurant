@@ -1,5 +1,6 @@
 package com.cpcs.restaurant.config;
 
+import com.cpcs.restaurant.service.UserDetailsServiceImpl;
 import com.cpcs.restaurant.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .and()
                 .formLogin()
                         .loginProcessingUrl("/login").permitAll()
-                        .loginPage("/login/form").permitAll()
+                        .loginPage("/login").permitAll()
                         .and()
                 .logout()
                         .logoutUrl("/logout").permitAll()
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserServiceImpl();
+        return new UserDetailsServiceImpl();
     }
 
 }

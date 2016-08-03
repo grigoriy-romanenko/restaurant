@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Role implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -51,6 +51,11 @@ public class Role implements Serializable {
         int result = id.hashCode();
         result = 31 * result + title.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" + "id=" + id + ", title=" + title + "}";
     }
 
 }

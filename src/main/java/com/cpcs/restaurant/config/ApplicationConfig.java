@@ -33,7 +33,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
@@ -41,13 +41,14 @@ public class ApplicationConfig {
         factory.setPackagesToScan("com.cpcs.restaurant.entity");
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
-        return factory;
+        return factory.getObject();
     }
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-        EntityManagerFactory factory = entityManagerFactory().getObject();
-        return new JpaTransactionManager(factory);
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(entityManagerFactory());
+        return txManager;
     }
 
     @Bean
