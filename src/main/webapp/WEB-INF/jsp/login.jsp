@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
-        <link href="/restaurant/resources/css/bootstrap.css" rel="stylesheet">
+        <link href="/restaurant/resources/lib/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
     </head>
     <body>
         <%@include file="header.jsp"%>

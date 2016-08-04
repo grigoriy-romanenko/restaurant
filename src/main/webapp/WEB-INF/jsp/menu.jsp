@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,26 +18,28 @@
             <div class="col-md-2">
                 <select id="categories" class="form-control"></select>
             </div>
-            <div class="col-md-1">
-                <input type="button" id="createMenuItemButton" class="form-control" value="Create"/>
-            </div>
-            <div id="createMenuItemPopup" title="Create Menu Item">
-                <form id="createMenuItemForm" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="title" class="control-label col-md-2">Title:</label>
-                        <div class="col-md-10">
-                            <input id="title" type="text" class="form-control"/>
+            <security:authorize access="hasAuthority('admin')">
+                <div class="col-md-1">
+                    <input type="button" id="createMenuItemButton" class="form-control" value="Create"/>
+                </div>
+                <div id="createMenuItemPopup" title="Create Menu Item">
+                    <form id="createMenuItemForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="title" class="control-label col-md-2">Title:</label>
+                            <div class="col-md-10">
+                                <input id="title" type="text" class="form-control"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="price" class="control-label col-md-2">Price:</label>
-                        <div class="col-md-10">
-                            <input id="price" type="number" class="form-control"/>
+                        <div class="form-group">
+                            <label for="price" class="control-label col-md-2">Price:</label>
+                            <div class="col-md-10">
+                                <input id="price" type="number" class="form-control"/>
+                            </div>
                         </div>
-                    </div>
-                    <input id="submitMenuItem" type="submit" class="form-control" value="Create"/>
-                </form>
-            </div>
+                        <input id="submitMenuItem" type="submit" class="form-control" value="Create"/>
+                    </form>
+                </div>
+            </security:authorize>
         </div>
     </form>
     <div class="container col-md-4">

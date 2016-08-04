@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link href="/restaurant/resources/css/bootstrap.css" rel="stylesheet">
-    <script src="/restaurant/resources/js/jquery-3.1.0.js"></script>
+    <link href="/restaurant/resources/lib/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+    <script src="/restaurant/resources/lib/jquery-3.1.0.js"></script>
 </head>
 <body>
     <%@include file="header.jsp"%>

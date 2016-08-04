@@ -16,6 +16,11 @@ public class MenuServiceImpl implements MenuService {
     private MenuItemRepository menuItemRepository;
 
     @Override
+    public MenuItem getMenuItem(Long menuItemId) {
+        return menuItemRepository.findOne(menuItemId);
+    }
+
+    @Override
     public List<MenuItem> getMenuItems(Long categoryId) {
         return categoryRepository.findOne(categoryId).getMenuItems();
     }
@@ -27,6 +32,14 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void createMenuItem(MenuItem menuItem) {
+        menuItemRepository.save(menuItem);
+    }
+
+    @Override
+    public void editMenuItem(MenuItem menuItem) {
+        if (!menuItemRepository.exists(menuItem.getId())) {
+            throw new IllegalArgumentException("Menu item does not exist. " + menuItem);
+        }
         menuItemRepository.save(menuItem);
     }
 

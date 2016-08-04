@@ -48,13 +48,13 @@ function createRowInItemsTable(item) {
     priceCell.textContent = item.price;
     tr.appendChild(priceCell);
     var actionsCell = document.createElement("td");
-    var addButton = document.createElement("button");
-    addButton.textContent = "Add to cart";
-    addButton.className = "btn btn-default";
-    addButton.onclick = function () {
+    var addToCartButton = document.createElement("button");
+    addToCartButton.textContent = "Add to cart";
+    addToCartButton.className = "btn btn-default";
+    addToCartButton.onclick = function () {
         alert(item.id)
     };
-    actionsCell.appendChild(addButton);
+    actionsCell.appendChild(addToCartButton);
     tr.appendChild(actionsCell);
     return tr;
 }

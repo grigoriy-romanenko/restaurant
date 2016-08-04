@@ -10,7 +10,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan(basePackages = {"com.cpcs.restaurant.controller"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 

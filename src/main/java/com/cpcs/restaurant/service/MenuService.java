@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface MenuService {
 
+    MenuItem getMenuItem(Long menuItemId);
     List<MenuItem> getMenuItems(Long categoryId);
     List<Category> getCategories();
     void createMenuItem(MenuItem menuItem);
+    void editMenuItem(MenuItem menuItem);
 
 }
