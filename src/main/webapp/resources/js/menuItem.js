@@ -1,5 +1,6 @@
 $(document).ready(function () {
     editMenuItemPopupSetup();
+    setDeleteMenuItemEvent();
 });
 
 function editMenuItemPopupSetup() {
@@ -39,6 +40,17 @@ function editMenuItemPopupSetup() {
             },
             error: function () {
                 alert("Error while getting menu categories");
+            }
+        });
+    });
+}
+
+function setDeleteMenuItemEvent() {
+    $("#deleteMenuItemButton").click(function () {
+        $.ajax({
+            type: "DELETE",
+            error: function () {
+                alert("Error while deleting menu item");
             }
         });
     });

@@ -12,5 +12,6 @@ public interface MenuService {
     List<Category> getCategories();
     void createMenuItem(MenuItem menuItem);
     void editMenuItem(MenuItem menuItem);
+    void deleteMenuItem(Long menuItemId);
 
 }

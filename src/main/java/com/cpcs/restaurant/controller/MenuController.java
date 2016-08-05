@@ -56,4 +56,10 @@ public class MenuController {
         menuService.editMenuItem(menuItem);
     }
 
+    @RequestMapping(value = "/item/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteMenuItemForm(@PathVariable("id") Long menuItemId) {
+        menuService.deleteMenuItem(menuItemId);
+    }
+
 }

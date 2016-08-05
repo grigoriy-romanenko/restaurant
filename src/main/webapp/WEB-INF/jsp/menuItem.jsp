@@ -46,5 +46,8 @@
                 <input id="submitMenuItem" type="submit" class="form-control" value="Edit"/>
             </form>
         </div>
+        <div class="col-md-1">
+            <input type="button" id="deleteMenuItemButton" class="form-control" value="Delete"/>
+        </div>
     </body>
 </html>
