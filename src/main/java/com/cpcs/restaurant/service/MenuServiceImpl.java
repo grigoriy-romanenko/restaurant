@@ -5,9 +5,12 @@ import com.cpcs.restaurant.entity.MenuItem;
 import com.cpcs.restaurant.repository.CategoryRepository;
 import com.cpcs.restaurant.repository.MenuItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
@@ -21,6 +24,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public Category getCategory(Long categoryId) {
+        return categoryRepository.findOne(categoryId);
+    }
+
+    @Override
     public List<MenuItem> getMenuItems(Long categoryId) {
         return categoryRepository.findOne(categoryId).getMenuItems();
     }
@@ -31,11 +39,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('admin')")
     public void createMenuItem(MenuItem menuItem) {
         menuItemRepository.save(menuItem);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('admin')")
     public void editMenuItem(MenuItem menuItem) {
         if (!menuItemRepository.exists(menuItem.getId())) {
             throw new IllegalArgumentException("Menu item does not exist. " + menuItem);
@@ -44,6 +54,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('admin')")
     public void deleteMenuItem(Long menuItemId) {
         menuItemRepository.delete(menuItemId);
     }

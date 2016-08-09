@@ -20,11 +20,18 @@ public class MenuController {
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String menu() {
-        return "menu";
+        return "redirect:/menu/categories/1";
     }
 
-    @RequestMapping(value = "/item/{id}", method = RequestMethod.GET)
-    public String menuItem(@PathVariable("id") Long menuItemId, Model model) {
+    @RequestMapping(value = "/categories/{categoryId}", method = RequestMethod.GET)
+    public String category(@PathVariable("categoryId") Long categoryId, Model model) {
+        Category category = menuService.getCategory(categoryId);
+        model.addAttribute("category", category);
+        return "category";
+    }
+
+    @RequestMapping(value = "/items/{menuItemId}", method = RequestMethod.GET)
+    public String menuItem(@PathVariable("menuItemId") Long menuItemId, Model model) {
         MenuItem menuItem = menuService.getMenuItem(menuItemId);
         model.addAttribute("menuItem", menuItem);
         return "menuItem";
@@ -35,30 +42,25 @@ public class MenuController {
         return menuService.getCategories();
     }
 
-    @RequestMapping(value = "/categories/{id}/items", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<MenuItem> getMenuItems(@PathVariable("id") Long categoryId) {
-        return menuService.getMenuItems(categoryId);
-    }
-
     @RequestMapping(value = "/categories/{id}/items", method = RequestMethod.POST, consumes = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
-    public void createMenuItemForm(@PathVariable("id") Long categoryId, @RequestBody MenuItem menuItem) {
+    public void createMenuItem(@PathVariable("id") Long categoryId, @RequestBody MenuItem menuItem) {
         Category category = new Category();
         category.setId(categoryId);
         menuItem.setCategory(category);
         menuService.createMenuItem(menuItem);
     }
 
-    @RequestMapping(value = "/item/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    @RequestMapping(value = "/items/{menuItemId}", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
-    public void editMenuItemForm(@PathVariable("id") Long menuItemId, @RequestBody MenuItem menuItem) {
+    public void editMenuItem(@PathVariable("menuItemId") Long menuItemId, @RequestBody MenuItem menuItem) {
         menuItem.setId(menuItemId);
         menuService.editMenuItem(menuItem);
     }
 
-    @RequestMapping(value = "/item/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/items/{menuItemId}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void deleteMenuItemForm(@PathVariable("id") Long menuItemId) {
+    public void deleteMenuItem(@PathVariable("menuItemId") Long menuItemId) {
         menuService.deleteMenuItem(menuItemId);
     }
 

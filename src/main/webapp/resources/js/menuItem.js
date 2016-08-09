@@ -7,6 +7,9 @@ function editMenuItemPopupSetup() {
     var dialog = $("#editMenuItemPopup").dialog({
         autoOpen: false
     });
+    $("#editMenuItemForm").submit(function () {
+        return false;
+    });
     $("#submitMenuItem").click(function () {
         $.ajax({
             type: "PUT",
@@ -20,13 +23,14 @@ function editMenuItemPopupSetup() {
             }),
             success: function () {
                 dialog.dialog("close");
+                window.location.reload(true);
             },
             error: function () {
                 alert("Error while updating menu item");
             }
         });
     });
-    $("#editMenuItemButton").on("click", function () {
+    $("#editMenuItemButton").click(function () {
         dialog.dialog("open");
         $("#titleInput").val($("#title").text());
         $("#priceInput").val($("#price").text());

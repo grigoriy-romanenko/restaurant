@@ -8,6 +8,7 @@ import java.util.List;
 public interface MenuService {
 
     MenuItem getMenuItem(Long menuItemId);
+    Category getCategory(Long categoryId);
     List<MenuItem> getMenuItems(Long categoryId);
     List<Category> getCategories();
     void createMenuItem(MenuItem menuItem);

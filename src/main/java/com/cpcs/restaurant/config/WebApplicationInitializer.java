@@ -1,9 +1,6 @@
 package com.cpcs.restaurant.config;
 
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.Filter;
 
 public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -20,11 +17,6 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[] { WebConfig.class };
-    }
-
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[] { new OpenEntityManagerInViewFilter() };
     }
 
 }

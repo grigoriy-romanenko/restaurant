@@ -27,3 +27,19 @@ CREATE TABLE users (
   PRIMARY KEY (id),
   FOREIGN KEY (role) REFERENCES roles (id)
 );
+
+CREATE TABLE carts (
+  id   IDENTITY,
+  user BIGINT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user) REFERENCES users (id)
+);
+
+CREATE TABLE cart_menuitem (
+  id       IDENTITY,
+  cart     BIGINT NOT NULL,
+  menuitem BIGINT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (cart) REFERENCES carts (id),
+  FOREIGN KEY (menuitem) REFERENCES menuitems (id)
+);

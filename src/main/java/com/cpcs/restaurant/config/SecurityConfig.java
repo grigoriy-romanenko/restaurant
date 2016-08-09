@@ -1,10 +1,8 @@
 package com.cpcs.restaurant.config;
 
-import com.cpcs.restaurant.service.UserDetailsServiceImpl;
 import com.cpcs.restaurant.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                        .antMatchers("/menu/**", "/resources/**", "/register").permitAll()
+                        .antMatchers("/", "/menu/**", "/resources/**", "/register").permitAll()
                         .anyRequest().authenticated()
                         .and()
                 .formLogin()
@@ -44,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        return new UserServiceImpl();
     }
 
 }

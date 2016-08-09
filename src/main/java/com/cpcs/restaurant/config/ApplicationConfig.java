@@ -1,9 +1,6 @@
 package com.cpcs.restaurant.config;
 
-import com.cpcs.restaurant.service.MenuService;
-import com.cpcs.restaurant.service.MenuServiceImpl;
-import com.cpcs.restaurant.service.UserService;
-import com.cpcs.restaurant.service.UserServiceImpl;
+import com.cpcs.restaurant.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.cpcs.restaurant.repository")
@@ -40,6 +38,7 @@ public class ApplicationConfig {
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("com.cpcs.restaurant.entity");
         factory.setDataSource(dataSource());
+        factory.setJpaProperties(jpaProperties());
         factory.afterPropertiesSet();
         return factory.getObject();
     }
@@ -51,6 +50,12 @@ public class ApplicationConfig {
         return txManager;
     }
 
+    private Properties jpaProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+        return properties;
+    }
+
     @Bean
     public MenuService menuService() {
         return new MenuServiceImpl();
@@ -59,6 +64,11 @@ public class ApplicationConfig {
     @Bean
     public UserService userService() {
         return new UserServiceImpl();
+    }
+
+    @Bean
+    public CartService cartService() {
+        return new CartServiceImpl();
     }
 
 }
