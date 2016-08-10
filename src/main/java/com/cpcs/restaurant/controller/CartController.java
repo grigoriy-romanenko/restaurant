@@ -25,4 +25,10 @@ public class CartController {
         cartService.addToCart(username, menuItemId);
     }
 
+    @RequestMapping(value = "/users/{username}/cart/{menuItemId}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteFromCart(@PathVariable("username") String username, @PathVariable("menuItemId") Long menuItemId) {
+        cartService.deleteFromCart(username, menuItemId);
+    }
+
 }

@@ -32,10 +32,8 @@ public class ApplicationConfig {
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factory.setPackagesToScan("com.cpcs.restaurant.entity");
         factory.setDataSource(dataSource());
         factory.setJpaProperties(jpaProperties());
