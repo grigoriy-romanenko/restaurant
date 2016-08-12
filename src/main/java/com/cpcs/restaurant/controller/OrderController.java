@@ -37,4 +37,10 @@ public class OrderController {
         orderService.purchase(username);
     }
 
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    public String orders(Model model) {
+        model.addAttribute("orders", orderService.getOrders());
+        return "orders";
+    }
+
 }

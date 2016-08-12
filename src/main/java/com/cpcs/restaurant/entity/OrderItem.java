@@ -12,7 +12,7 @@ public class OrderItem implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order")
+    @JoinColumn(name = "[order]")
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)

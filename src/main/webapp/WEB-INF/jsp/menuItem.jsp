@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
         <title>${menuItem.title}</title>
@@ -12,13 +11,13 @@
         <script src="/restaurant/resources/js/menuItem.js"></script>
     </head>
     <body>
-        <%@include file="header.jsp"%>
-            <b>Title: </b><span id="title"><c:out value="${menuItem.title}"/></span>
+        <%@ include file="header.jsp" %>
+            <b>Title: </b><span id="title">${menuItem.title}"</span>
         <div>
-            <b>Price: </b><span id="price"><c:out value="${menuItem.price}"/></span>
+            <b>Price: </b><span id="price">${menuItem.price}"</span>
         </div>
         <div>
-            <b>Category: </b><span id="category"><c:out value="${menuItem.category.title}"/></span>
+            <b>Category: </b><span id="category">${menuItem.category.title}</span>
         </div>
         <div class="col-md-1">
             <input type="button" id="editMenuItemButton" class="form-control" value="Edit"/>

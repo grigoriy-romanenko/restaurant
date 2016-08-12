@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    setDeleteFromCartEvent();
+    setPurchaseEvent();
+});
+
+function setDeleteFromCartEvent() {
     $(".delete-from-cart-btn").each(function () {
         $(this).click(function () {
             var menuItemId = $(this).attr("data-menu-item");
@@ -15,4 +20,16 @@ $(document).ready(function () {
             })
         })
     })
-});
+}
+
+function setPurchaseEvent() {
+    $("#purchase").click(function () {
+        var username = $(this).attr("data-username");
+        $.ajax({
+            url: "/restaurant/users/" + username + "/cart/purchase",
+            error: function () {
+                alert("Error while purchasing shopping cart");
+            }
+        })
+    })
+}

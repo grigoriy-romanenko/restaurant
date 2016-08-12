@@ -12,27 +12,33 @@
     <body>
         <%@ include file="header.jsp" %>
         <div class="container col-md-4">
-            <table class="table">
-                <tr>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-                <c:forEach var="menuItem" items="${cart.menuItems}">
+            <c:if test="${not empty cart.menuItems}">
+                <table class="table">
                     <tr>
-                        <td><a href="/restaurant/menu/items/${menuItem.id}">${menuItem.title}</a></td>
-                        <td>${menuItem.price}</td>
-                        <td>
-                            <button data-menu-item="${menuItem.id}" data-username="${pageContext.request.userPrincipal.name}" class="btn btn-default delete-from-cart-btn">Delete</button>
-                        </td>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th></th>
                     </tr>
-                </c:forEach>
-                <c:if test="${not empty cart.menuItems}">
+                    <c:forEach var="menuItem" items="${cart.menuItems}">
+                        <tr>
+                            <td><a href="/restaurant/menu/items/${menuItem.id}">${menuItem.title}</a></td>
+                            <td>${menuItem.price}</td>
+                            <td>
+                                <button data-menu-item="${menuItem.id}"
+                                        data-username="${pageContext.request.userPrincipal.name}"
+                                        class="btn btn-default delete-from-cart-btn">Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     <tr>
                         <td>Overall price: ${cart.overallPrice}</td>
                     </tr>
-                </c:if>
-            </table>
+                </table>
+                <button id="purchase"
+                        data-username="${pageContext.request.userPrincipal.name}"
+                        class="btn btn-default">Purchase</button>
+            </c:if>
         </div>
     </body>
 </html>

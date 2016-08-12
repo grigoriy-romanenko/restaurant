@@ -8,6 +8,9 @@
             </button>
             <ul class="dropdown-menu"></ul>
         </div>
+        <security:authorize access="hasAuthority('admin')">
+            <a class="btn btn-default navbar-btn" href="/restaurant/orders">Orders</a>
+        </security:authorize>
         <security:authorize access="isAuthenticated()">
             <a class="btn btn-default navbar-btn" href="/restaurant/profile">Profile</a>
             <a class="btn btn-default navbar-btn" href="/restaurant/users/${pageContext.request.userPrincipal.name}/cart">Cart</a>

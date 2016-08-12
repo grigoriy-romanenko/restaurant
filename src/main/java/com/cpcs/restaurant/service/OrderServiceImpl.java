@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -73,5 +74,11 @@ public class OrderServiceImpl implements OrderService {
         cart.getMenuItems().clear();
         cartRepository.save(cart);
     }
-    
+
+    @Override
+    @PreAuthorize("hasAuthority('admin')")
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
+    }
+
 }

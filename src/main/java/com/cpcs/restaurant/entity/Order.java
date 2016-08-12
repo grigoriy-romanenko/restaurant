@@ -24,7 +24,7 @@ public class Order implements Serializable {
     @Type(type = "timestamp")
     private Date date;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public Long getId() {
