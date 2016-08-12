@@ -6,6 +6,7 @@
         <title>${category.title}</title>
         <link href="/restaurant/resources/lib/jquery-ui-1.12.0/jquery-ui.css" rel="stylesheet">
         <link href="/restaurant/resources/lib/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+        <link href="/restaurant/resources/css/common.css" rel="stylesheet">
         <script src="/restaurant/resources/lib/jquery-3.1.0.js"></script>
         <script src="/restaurant/resources/lib/bootstrap-3.3.7/js/bootstrap.js"></script>
         <script src="/restaurant/resources/lib/jquery-ui-1.12.0/jquery-ui.js"></script>
@@ -13,10 +14,32 @@
         <script src="/restaurant/resources/js/category.js"></script>
     </head>
     <body>
-        <%@include file="header.jsp"%>
+        <%@ include file="header.jsp" %>
+        <div class="container col-md-4">
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                <c:forEach var="menuItem" items="${category.menuItems}">
+                    <tr>
+                        <td><a href="/restaurant/menu/items/${menuItem.id}">${menuItem.title}</a></td>
+                        <td>${menuItem.price}</td>
+                        <td>
+                            <security:authorize access="isAuthenticated()">
+                                <button data-menu-item="${menuItem.id}"
+                                        data-username="${pageContext.request.userPrincipal.name}"
+                                        class="btn btn-default add-to-cart-btn">Add to cart</button>
+                            </security:authorize>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
         <security:authorize access="hasAuthority('admin')">
-            <div class="col-md-1">
-                <input type="button" id="createMenuItemButton" class="form-control" value="Create"/>
+            <div>
+                <button id="createMenuItemButton" class="btn btn-default">Create</button>
             </div>
             <div id="createMenuItemPopup" title="Create Menu Item">
                 <form id="createMenuItemForm" class="form-horizontal">
@@ -36,25 +59,5 @@
                 </form>
             </div>
         </security:authorize>
-        <div class="container col-md-4">
-            <table class="table">
-                <tr>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-                <c:forEach var="menuItem" items="${category.menuItems}">
-                    <tr>
-                        <td><a href="/restaurant/menu/items/${menuItem.id}">${menuItem.title}</a></td>
-                        <td>${menuItem.price}</td>
-                        <td>
-                            <security:authorize access="isAuthenticated()">
-                                <button data-menu-item="${menuItem.id}" data-username="${pageContext.request.userPrincipal.name}" class="btn btn-default add-to-cart-btn">Add to cart</button>
-                            </security:authorize>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
     </body>
 </html>

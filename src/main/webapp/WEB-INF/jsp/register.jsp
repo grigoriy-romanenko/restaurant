@@ -4,12 +4,13 @@
         <meta charset="UTF-8">
         <title>Registration</title>
         <link href="/restaurant/resources/lib/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+        <link href="/restaurant/resources/css/common.css" rel="stylesheet">
         <script src="/restaurant/resources/lib/jquery-3.1.0.js"></script>
         <script src="/restaurant/resources/lib/bootstrap-3.3.7/js/bootstrap.js"></script>
         <script src="/restaurant/resources/js/header.js"></script>
     </head>
     <body>
-        <%@include file="header.jsp"%>
+        <%@ include file="header.jsp" %>
         <form class="form-horizontal" action="/restaurant/register" method="post">
             <div class="form-group">
                 <label for="username" class="control-label col-md-2">Username:</label>

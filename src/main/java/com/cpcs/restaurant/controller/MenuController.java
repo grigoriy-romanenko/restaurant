@@ -15,8 +15,12 @@ import java.util.List;
 @RequestMapping("/menu")
 public class MenuController {
 
-    @Autowired
     private MenuService menuService;
+
+    @Autowired
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
+    }
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String menu() {

@@ -1,6 +1,9 @@
 package com.cpcs.restaurant.config;
 
+import com.cpcs.restaurant.repository.UserRepository;
+import com.cpcs.restaurant.service.UserDetailsServiceImpl;
 import com.cpcs.restaurant.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,9 +19,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -38,11 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .and()
                 .csrf().disable()
                 .headers().cacheControl();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserServiceImpl();
     }
 
 }

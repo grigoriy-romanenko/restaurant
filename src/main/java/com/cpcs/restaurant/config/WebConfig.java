@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.cpcs.restaurant.controller"})
+@ComponentScan("com.cpcs.restaurant.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean

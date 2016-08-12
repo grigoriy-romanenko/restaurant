@@ -6,17 +6,23 @@ import com.cpcs.restaurant.repository.CategoryRepository;
 import com.cpcs.restaurant.repository.MenuItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 @Transactional
 public class MenuServiceImpl implements MenuService {
 
-    @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
     private MenuItemRepository menuItemRepository;
+
+    @Autowired
+    public MenuServiceImpl(CategoryRepository categoryRepository, MenuItemRepository menuItemRepository) {
+        this.categoryRepository = categoryRepository;
+        this.menuItemRepository = menuItemRepository;
+    }
 
     @Override
     public MenuItem getMenuItem(Long menuItemId) {

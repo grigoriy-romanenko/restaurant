@@ -7,23 +7,41 @@ import com.cpcs.restaurant.repository.OrderRepository;
 import com.cpcs.restaurant.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
     private CartRepository cartRepository;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private MenuItemRepository menuItemRepository;
-    @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    public void setCartRepository(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setMenuItemRepository(MenuItemRepository menuItemRepository) {
+        this.menuItemRepository = menuItemRepository;
+    }
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @Override
     @PreAuthorize("#username == authentication.name")

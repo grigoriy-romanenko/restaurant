@@ -4,6 +4,7 @@
         <title>${menuItem.title}</title>
         <link href="/restaurant/resources/lib/jquery-ui-1.12.0/jquery-ui.css" rel="stylesheet">
         <link href="/restaurant/resources/lib/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+        <link href="/restaurant/resources/css/common.css" rel="stylesheet">
         <script src="/restaurant/resources/lib/jquery-3.1.0.js"></script>
         <script src="/restaurant/resources/lib/bootstrap-3.3.7/js/bootstrap.js"></script>
         <script src="/restaurant/resources/lib/jquery-ui-1.12.0/jquery-ui.js"></script>
@@ -12,18 +13,16 @@
     </head>
     <body>
         <%@ include file="header.jsp" %>
-            <b>Title: </b><span id="title">${menuItem.title}"</span>
+            <b>Title: </b><span id="title">${menuItem.title}</span>
         <div>
-            <b>Price: </b><span id="price">${menuItem.price}"</span>
+            <b>Price: </b><span id="price">${menuItem.price}</span>
         </div>
         <div>
             <b>Category: </b><span id="category">${menuItem.category.title}</span>
         </div>
-        <div class="col-md-1">
-            <input type="button" id="editMenuItemButton" class="form-control" value="Edit"/>
-        </div>
-        <div class="col-md-1">
-            <input type="button" id="deleteMenuItemButton" class="form-control" value="Delete"/>
+        <div>
+            <button id="editMenuItemButton" class="btn btn-default">Edit</button>
+            <button id="deleteMenuItemButton" class="btn btn-default">Delete</button>
         </div>
         <div id="editMenuItemPopup" title="Edit Menu Item">
             <form id="editMenuItemForm" class="form-horizontal">

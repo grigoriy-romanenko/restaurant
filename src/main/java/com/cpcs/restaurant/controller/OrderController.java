@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class OrderController {
 
-    @Autowired
     private OrderService orderService;
+
+    @Autowired
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @RequestMapping(value = "/users/{username}/cart", method = RequestMethod.GET)
     public String getCart(@PathVariable("username") String username, Model model) {
