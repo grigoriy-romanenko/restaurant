@@ -51,7 +51,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @PreAuthorize("#username == authentication.name")
     public void purchase(String username) {
+        Cart cart = getCart(username);
+        for (MenuItem menuItem : cart.getMenuItems()) {
 
+        }
     }
     
 }

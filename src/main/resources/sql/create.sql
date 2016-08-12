@@ -46,8 +46,8 @@ CREATE TABLE carts_menuitems (
 
 CREATE TABLE orders (
   id   IDENTITY,
-  user BIGINT NOT NULL,
-  date DATE   NOT NULL,
+  user BIGINT    NOT NULL,
+  date TIMESTAMP NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (user) REFERENCES users (id)
 );
@@ -55,7 +55,7 @@ CREATE TABLE orders (
 CREATE TABLE orderitems (
   id       IDENTITY,
   "order"  BIGINT NOT NULL,
-  menuitem BIGINT NOT NULL,
+  menuitem BIGINT,
   price    BIGINT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY ("order") REFERENCES orders (id),
