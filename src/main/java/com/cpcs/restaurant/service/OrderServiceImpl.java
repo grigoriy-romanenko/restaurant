@@ -11,7 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class CartServiceImpl implements CartService {
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private CartRepository cartRepository;
@@ -48,4 +48,10 @@ public class CartServiceImpl implements CartService {
         getCart(username).getMenuItems().remove(menuItem);
     }
 
+    @Override
+    @PreAuthorize("#username == authentication.name")
+    public void purchase(String username) {
+
+    }
+    
 }

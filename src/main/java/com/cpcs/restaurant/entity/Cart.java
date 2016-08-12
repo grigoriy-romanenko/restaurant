@@ -18,7 +18,7 @@ public class Cart implements Serializable {
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "cart_menuitem",
+    @JoinTable(name = "carts_menuitems",
             joinColumns = @JoinColumn(name = "cart", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "menuitem", referencedColumnName = "id"))
     private List<MenuItem> menuItems = new ArrayList<>();

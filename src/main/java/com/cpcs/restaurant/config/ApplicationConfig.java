@@ -65,8 +65,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public CartService cartService() {
-        return new CartServiceImpl();
+    public OrderService cartService() {
+        return new OrderServiceImpl();
     }
 
 }

@@ -35,7 +35,7 @@ CREATE TABLE carts (
   FOREIGN KEY (user) REFERENCES users (id)
 );
 
-CREATE TABLE cart_menuitem (
+CREATE TABLE carts_menuitems (
   id       IDENTITY,
   cart     BIGINT NOT NULL,
   menuitem BIGINT NOT NULL,
@@ -43,3 +43,21 @@ CREATE TABLE cart_menuitem (
   FOREIGN KEY (cart) REFERENCES carts (id),
   FOREIGN KEY (menuitem) REFERENCES menuitems (id)
 );
+
+CREATE TABLE orders (
+  id   IDENTITY,
+  user BIGINT NOT NULL,
+  date DATE   NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user) REFERENCES users (id)
+);
+
+CREATE TABLE orderitems (
+  id       IDENTITY,
+  "order"  BIGINT NOT NULL,
+  menuitem BIGINT NOT NULL,
+  price    BIGINT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY ("order") REFERENCES orders (id),
+  FOREIGN KEY (menuitem) REFERENCES menuitems (id)
+)
