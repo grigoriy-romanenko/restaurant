@@ -1,14 +1,16 @@
 package com.cpcs.restaurant.service;
 
-import com.cpcs.restaurant.entity.Cart;
-import com.cpcs.restaurant.entity.MenuItem;
-import com.cpcs.restaurant.entity.User;
+import com.cpcs.restaurant.entity.*;
 import com.cpcs.restaurant.repository.CartRepository;
 import com.cpcs.restaurant.repository.MenuItemRepository;
+import com.cpcs.restaurant.repository.OrderRepository;
 import com.cpcs.restaurant.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.stream.Collectors;
 
 @Transactional
 public class OrderServiceImpl implements OrderService {
@@ -19,6 +21,8 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepository;
     @Autowired
     private MenuItemRepository menuItemRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     @PreAuthorize("#username == authentication.name")
@@ -52,9 +56,22 @@ public class OrderServiceImpl implements OrderService {
     @PreAuthorize("#username == authentication.name")
     public void purchase(String username) {
         Cart cart = getCart(username);
-        for (MenuItem menuItem : cart.getMenuItems()) {
-
-        }
+        User user = userRepository.findByUsername(username);
+        Order order = new Order();
+        order.setUser(user);
+        order.setDate(new Date());
+        order.setOrderItems(
+                cart.getMenuItems().stream().map(menuItem -> {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setOrder(order);
+                    orderItem.setMenuItem(menuItem);
+                    orderItem.setPrice(menuItem.getPrice());
+                    return orderItem;
+                }).collect(Collectors.toList())
+        );
+        orderRepository.save(order);
+        cart.getMenuItems().clear();
+        cartRepository.save(cart);
     }
     
 }

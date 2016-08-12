@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Order implements Serializable {
     private Date date;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -84,8 +85,7 @@ public class Order implements Serializable {
                 "id=" + id +
                 ", user=" + user +
                 ", date=" + date +
-                ", orderItems=" + orderItems +
-                "}";
+                ", orderItems=" + orderItems + "}";
     }
 
 }
