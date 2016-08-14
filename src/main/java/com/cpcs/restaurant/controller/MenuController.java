@@ -42,7 +42,8 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Category> getCategories() {
+    @ResponseBody
+    public List<Category> getCategories() {
         return menuService.getCategories();
     }
 
