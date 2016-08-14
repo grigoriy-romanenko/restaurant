@@ -47,11 +47,9 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/categories/{id}/items", method = RequestMethod.POST, consumes = "application/json")
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void createMenuItem(@PathVariable("id") Long categoryId, @RequestBody MenuItem menuItem) {
-        Category category = new Category();
-        category.setId(categoryId);
-        menuItem.setCategory(category);
+        menuItem.setCategory(new Category(categoryId));
         menuService.createMenuItem(menuItem);
     }
 

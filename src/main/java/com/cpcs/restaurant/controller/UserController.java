@@ -28,8 +28,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void register(@RequestParam String username, @RequestParam String password) {
+    public String register(@RequestParam String username, @RequestParam String password) {
         userService.register(username, password);
+        return "redirect:/login";
     }
 
 }

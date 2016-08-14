@@ -46,13 +46,13 @@
                     <div class="form-group">
                         <label for="title" class="control-label col-md-2">Title:</label>
                         <div class="col-md-10">
-                            <input id="title" type="text" class="form-control"/>
+                            <input id="title" type="text" class="form-control" required/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="price" class="control-label col-md-2">Price:</label>
                         <div class="col-md-10">
-                            <input id="price" type="number" class="form-control"/>
+                            <input id="price" type="number" min="1" step="1" class="form-control" required/>
                         </div>
                     </div>
                     <input id="submitMenuItem" type="submit" class="form-control" value="Create"/>

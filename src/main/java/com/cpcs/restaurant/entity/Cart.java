@@ -1,6 +1,8 @@
 package com.cpcs.restaurant.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +15,16 @@ public class Cart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
+    @NotNull
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "carts_menuitems",
             joinColumns = @JoinColumn(name = "cart", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "menuitem", referencedColumnName = "id"))
+    @NotNull
     private List<MenuItem> menuItems = new ArrayList<>();
 
     public Long getId() {
@@ -56,25 +60,22 @@ public class Cart implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Cart)) return false;
         Cart cart = (Cart) o;
-        if (!id.equals(cart.id)) return false;
-        if (!user.equals(cart.user)) return false;
-        return menuItems.equals(cart.menuItems);
+        if (id != null ? !id.equals(cart.id) : cart.id != null) return false;
+        if (user != null ? !user.equals(cart.user) : cart.user != null) return false;
+        return menuItems != null ? menuItems.equals(cart.menuItems) : cart.menuItems == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + menuItems.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Cart{" +
-                "id=" + id +
-                ", user=" + user +
-                ", menuItems=" + menuItems + "}";
+        return String.format("Cart{id=%s, user=%s, menuItems=%s}", id, user, menuItems);
     }
 
 }

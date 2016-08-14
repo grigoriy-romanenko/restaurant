@@ -18,13 +18,13 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/users/{username}/cart", method = RequestMethod.GET)
-    public String getCart(@PathVariable("username") String username, Model model) {
+    public String cart(@PathVariable("username") String username, Model model) {
         model.addAttribute("cart", orderService.getCart(username));
         return "cart";
     }
 
     @RequestMapping(value = "/users/{username}/cart", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void addToCart(@PathVariable("username") String username, @RequestParam Long menuItemId) {
         orderService.addToCart(username, menuItemId);
     }

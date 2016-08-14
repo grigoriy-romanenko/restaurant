@@ -12,7 +12,7 @@ $(document).ready(function () {
             });
         },
         error: function () {
-            console.error("Error while getting menu categories");
+            alert("Error while getting menu categories");
         }
     });
 });

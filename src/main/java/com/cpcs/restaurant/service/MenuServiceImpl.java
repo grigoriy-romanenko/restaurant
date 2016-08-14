@@ -8,12 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
 public class MenuServiceImpl implements MenuService {
+
+    private static final String MENU_ITEM_NOT_FOUND_MSG = "Menu item does not exist. ID: ";
+    private static final String CATEGORY_NOT_FOUND_MSG = "Category does not exist. ID: ";
+    private static final String INVALID_MENU_ITEM_TITLE_MSG = "Given menu item title is already in use. Title: ";
 
     private CategoryRepository categoryRepository;
     private MenuItemRepository menuItemRepository;
@@ -26,17 +32,20 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuItem getMenuItem(Long menuItemId) {
-        return menuItemRepository.findOne(menuItemId);
+        MenuItem menuItem = menuItemRepository.findOne(menuItemId);
+        if (menuItem == null) {
+            throw new NoSuchElementException(MENU_ITEM_NOT_FOUND_MSG + menuItemId);
+        }
+        return menuItem;
     }
 
     @Override
     public Category getCategory(Long categoryId) {
-        return categoryRepository.findOne(categoryId);
-    }
-
-    @Override
-    public List<MenuItem> getMenuItems(Long categoryId) {
-        return categoryRepository.findOne(categoryId).getMenuItems();
+        Category category = categoryRepository.findOne(categoryId);
+        if (category == null) {
+            throw new NoSuchElementException(CATEGORY_NOT_FOUND_MSG + categoryId);
+        }
+        return category;
     }
 
     @Override
@@ -47,6 +56,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @PreAuthorize("hasAuthority('admin')")
     public void createMenuItem(MenuItem menuItem) {
+        if (menuItemRepository.findByTitle(menuItem.getTitle()) != null) {
+            throw new RestClientException(INVALID_MENU_ITEM_TITLE_MSG + menuItem.getTitle());
+        }
         menuItemRepository.save(menuItem);
     }
 
@@ -54,7 +66,11 @@ public class MenuServiceImpl implements MenuService {
     @PreAuthorize("hasAuthority('admin')")
     public void editMenuItem(MenuItem menuItem) {
         if (!menuItemRepository.exists(menuItem.getId())) {
-            throw new IllegalArgumentException("Menu item does not exist. " + menuItem);
+            throw new RestClientException(MENU_ITEM_NOT_FOUND_MSG + menuItem.getId());
+        }
+        MenuItem existed = menuItemRepository.findByTitle(menuItem.getTitle());
+        if (existed != null && !existed.getId().equals(menuItem.getId())) {
+            throw new RestClientException(INVALID_MENU_ITEM_TITLE_MSG + menuItem.getTitle());
         }
         menuItemRepository.save(menuItem);
     }

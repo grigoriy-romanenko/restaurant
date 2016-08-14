@@ -13,7 +13,9 @@
     </head>
     <body>
         <%@ include file="header.jsp" %>
+        <div>
             <b>Title: </b><span id="title">${menuItem.title}</span>
+        </div>
         <div>
             <b>Price: </b><span id="price">${menuItem.price}</span>
         </div>
@@ -29,13 +31,13 @@
                 <div class="form-group">
                     <label for="titleInput" class="control-label col-md-3">Title:</label>
                     <div class="col-md-9">
-                        <input id="titleInput" type="text" class="form-control"/>
+                        <input id="titleInput" type="text" class="form-control" required/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="priceInput" class="control-label col-md-3">Price:</label>
                     <div class="col-md-9">
-                        <input id="priceInput" type="number" class="form-control"/>
+                        <input id="priceInput" type="number" min="1" class="form-control" required/>
                     </div>
                 </div>
                 <div class="form-group">

@@ -1,6 +1,8 @@
 package com.cpcs.restaurant.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -13,6 +15,7 @@ public class OrderItem implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "[order]")
+    @NotNull
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -20,6 +23,8 @@ public class OrderItem implements Serializable {
     private MenuItem menuItem;
 
     @Column
+    @Min(1)
+    @NotNull
     private Long price;
 
     public Long getId() {
@@ -59,28 +64,25 @@ public class OrderItem implements Serializable {
         if (this == o) return true;
         if (!(o instanceof OrderItem)) return false;
         OrderItem orderItem = (OrderItem) o;
-        if (!id.equals(orderItem.id)) return false;
-        if (!order.equals(orderItem.order)) return false;
+        if (id != null ? !id.equals(orderItem.id) : orderItem.id != null) return false;
+        if (order != null ? !order.equals(orderItem.order) : orderItem.order != null) return false;
         if (menuItem != null ? !menuItem.equals(orderItem.menuItem) : orderItem.menuItem != null) return false;
-        return price.equals(orderItem.price);
+        return price != null ? price.equals(orderItem.price) : orderItem.price == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + order.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (menuItem != null ? menuItem.hashCode() : 0);
-        result = 31 * result + price.hashCode();
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", order=" + order +
-                ", menuItem=" + menuItem +
-                ", price=" + price + "}";
+        return String.format("OrderItem{id=%s, order=%s, menuItem=%s, price=%s}",
+                id, order, menuItem, price);
     }
 
 }

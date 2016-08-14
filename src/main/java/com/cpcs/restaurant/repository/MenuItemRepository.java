@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
+    MenuItem findByTitle(String title);
+
 }

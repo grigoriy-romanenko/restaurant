@@ -14,6 +14,9 @@ function setDeleteFromCartEvent() {
                 data: {
                     menuItemId: menuItemId
                 },
+                success: function () {
+                    window.location.reload(true);
+                },
                 error: function () {
                     alert("Error while deleting menu item from cart");
                 }
@@ -27,6 +30,9 @@ function setPurchaseEvent() {
         var username = $(this).attr("data-username");
         $.ajax({
             url: "/restaurant/users/" + username + "/cart/purchase",
+            success: function () {
+                window.location.reload(true);
+            },
             error: function () {
                 alert("Error while purchasing shopping cart");
             }

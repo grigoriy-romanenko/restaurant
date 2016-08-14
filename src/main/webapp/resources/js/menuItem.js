@@ -5,12 +5,13 @@ $(document).ready(function () {
 
 function editMenuItemPopupSetup() {
     var dialog = $("#editMenuItemPopup").dialog({
-        autoOpen: false
+        autoOpen: false,
+        resizable: false,
+        modal: true
     });
-    $("#editMenuItemForm").submit(function () {
-        return false;
-    });
-    $("#submitMenuItem").click(function () {
+    $(dialog).css("overflow", "hidden");
+    $("#editMenuItemForm").submit(function (event) {
+        event.preventDefault();
         $.ajax({
             type: "PUT",
             contentType: 'application/json',
@@ -25,8 +26,8 @@ function editMenuItemPopupSetup() {
                 dialog.dialog("close");
                 window.location.reload(true);
             },
-            error: function () {
-                alert("Error while updating menu item");
+            error: function (xhr) {
+                alert(xhr.responseText);
             }
         });
     });
@@ -51,11 +52,16 @@ function editMenuItemPopupSetup() {
 
 function setDeleteMenuItemEvent() {
     $("#deleteMenuItemButton").click(function () {
-        $.ajax({
-            type: "DELETE",
-            error: function () {
-                alert("Error while deleting menu item");
-            }
-        });
+        if (confirm("Are you sure want to delete this menu item?")) {
+            $.ajax({
+                type: "DELETE",
+                success: function () {
+                    window.location.href = "/restaurant/menu";
+                },
+                error: function () {
+                    alert("Error while deleting menu item");
+                }
+            });
+        }
     });
 }

@@ -3,6 +3,7 @@ package com.cpcs.restaurant.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,13 +19,16 @@ public class Order implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
+    @NotNull
     private User user;
 
     @Column
     @Type(type = "timestamp")
+    @NotNull
     private Date date;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    @NotNull
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public Long getId() {
@@ -64,28 +68,25 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        if (!id.equals(order.id)) return false;
-        if (!user.equals(order.user)) return false;
-        if (!date.equals(order.date)) return false;
-        return orderItems.equals(order.orderItems);
+        if (id != null ? !id.equals(order.id) : order.id != null) return false;
+        if (user != null ? !user.equals(order.user) : order.user != null) return false;
+        if (date != null ? !date.equals(order.date) : order.date != null) return false;
+        return orderItems != null ? orderItems.equals(order.orderItems) : order.orderItems == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + orderItems.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (orderItems != null ? orderItems.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", user=" + user +
-                ", date=" + date +
-                ", orderItems=" + orderItems + "}";
+        return String.format("Order{id=%s, user=%s, date=%s, orderItems=%s}",
+                id, user, date, orderItems);
     }
 
 }

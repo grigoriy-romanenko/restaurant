@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Role DEFAULT_USER_ROLE = new Role(2L, "user");
     private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    private static final String INVALID_USERNAME_MSG = "Registration failed. Username is already in use";
 
     private UserRepository userRepository;
 
@@ -26,13 +27,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
     public void register(String username, String password) {
-        userRepository.save(new User(username, PASSWORD_ENCODER.encode(password), DEFAULT_USER_ROLE));
+        if (userRepository.findByUsername(username) != null) {
+            throw new IllegalArgumentException(INVALID_USERNAME_MSG);
+        }
+        User user = new User(username, PASSWORD_ENCODER.encode(password), DEFAULT_USER_ROLE);
+        userRepository.save(user);
     }
 
 }

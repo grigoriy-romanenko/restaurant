@@ -7,9 +7,10 @@
         <script src="/restaurant/resources/lib/jquery-3.1.0.js"></script>
         <script src="/restaurant/resources/lib/bootstrap-3.3.7/js/bootstrap.js"></script>
         <script src="/restaurant/resources/js/header.js"></script>
+        <script src="/restaurant/resources/js/cart.js"></script>
     </head>
     <body>
         <%@ include file="header.jsp" %>
-        <div>${exception.message}</div>
+        <div>Error message: ${exception.message}</div>
     </body>
 </html>

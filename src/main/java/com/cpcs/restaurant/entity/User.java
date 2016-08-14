@@ -1,6 +1,10 @@
 package com.cpcs.restaurant.entity;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -12,13 +16,18 @@ public class User implements Serializable {
     private Long id;
 
     @Column
+    @NotBlank
+    @Length(max = 50)
     private String username;
 
     @Column
+    @NotBlank
+    @Length(max = 100)
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role")
+    @NotNull
     private Role role;
 
     public User() {}
@@ -66,27 +75,24 @@ public class User implements Serializable {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        if (!id.equals(user.id)) return false;
-        if (!username.equals(user.username)) return false;
-        if (!password.equals(user.password)) return false;
-        return role.equals(user.role);
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        return role != null ? role.equals(user.role) : user.role == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + role.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username=" + username +
-                ", password=" + password +
-                ", role=" + role + "}";
+        return String.format("User{id=%s, username=%s, password=%s, role=%s}",
+                id, username, password, role);
     }
 }

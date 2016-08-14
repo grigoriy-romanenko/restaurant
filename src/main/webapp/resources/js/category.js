@@ -10,10 +10,8 @@ function createMenuItemFormSetup() {
         modal: true
     });
     $(dialog).css("overflow", "hidden");
-    $("#createMenuItemForm").submit(function () {
-        return false;
-    });
-    $("#submitMenuItem").click(function () {
+    $("#createMenuItemForm").submit(function (event) {
+        event.preventDefault();
         var url = window.location.pathname;
         var categoryId = url.substring(url.lastIndexOf('/') + 1);
         $.ajax({
@@ -28,8 +26,8 @@ function createMenuItemFormSetup() {
                 dialog.dialog("close");
                 window.location.reload(true);
             },
-            error: function () {
-                alert("Error while creating menu item");
+            error: function (xhr) {
+                alert(xhr.responseText);
             }
         });
     });

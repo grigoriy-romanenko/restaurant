@@ -1,6 +1,12 @@
 package com.cpcs.restaurant.entity;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Entity
@@ -11,14 +17,19 @@ public class MenuItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column()
+    @NotBlank
+    @Length(max = 50)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category")
+    @NotNull
     private Category category;
 
-    @Column
+    @Column()
+    @Min(1)
+    @NotNull
     private Long price;
 
     public Long getId() {
@@ -58,27 +69,24 @@ public class MenuItem implements Serializable {
         if (this == o) return true;
         if (!(o instanceof MenuItem)) return false;
         MenuItem menuItem = (MenuItem) o;
-        if (!id.equals(menuItem.id)) return false;
-        if (!title.equals(menuItem.title)) return false;
-        if (!category.equals(menuItem.category)) return false;
-        return price.equals(menuItem.price);
+        if (id != null ? !id.equals(menuItem.id) : menuItem.id != null) return false;
+        if (title != null ? !title.equals(menuItem.title) : menuItem.title != null) return false;
+        if (category != null ? !category.equals(menuItem.category) : menuItem.category != null) return false;
+        return price != null ? price.equals(menuItem.price) : menuItem.price == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + category.hashCode();
-        result = 31 * result + price.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "MenuItem{" +
-                "id=" + id +
-                ", title=" + title +
-                ", category=" + category +
-                ", price=" + price + "}";
+        return String.format("MenuItem{id=%s, title=%s, category=%s, price=%s}",
+                id, title, category, price);
     }
 }
