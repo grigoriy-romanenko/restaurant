@@ -1,3 +1,5 @@
 /.idea/
 /restaurant.iml
 /src/main/webapp/resources/lib/
+/sonar-project.properties
+/.sonar/

@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Entity
@@ -17,7 +16,7 @@ public class MenuItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column()
+    @Column
     @NotBlank
     @Length(max = 50)
     private String title;
@@ -27,7 +26,7 @@ public class MenuItem implements Serializable {
     @NotNull
     private Category category;
 
-    @Column()
+    @Column
     @Min(1)
     @NotNull
     private Long price;
