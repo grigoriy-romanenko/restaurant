@@ -35,8 +35,14 @@ import static org.junit.Assert.*;
 @WebAppConfiguration
 public class MenuControllerTest extends AbstractTransactionalJUnit4SpringContextTests {
 
+    private static final String MENU_ITEMS_TABLE_NAME = "menuitems";
+    private static final String CREATE_MENU_ITEM_JSON_TEMPLATE = "{\"title\": \"%s\", \"price\": %s}";
+    private static final String EDIT_MENU_ITEM_JSON_TEMPLATE = "{\"title\": \"%s\", \"price\": %s, \"category\": {\"id\": %s}}";
+    private static final String CREATE_MENU_ITEM_WHERE_TEMPLATE = "title = '%s' and price = %s and category = %s";
+    private static final String CREATE_MENU_ITEM_URL_TEMPLATE = "/menu/categories/%s/items";
+
     @Autowired
-    EntityManager entityManager;
+    private EntityManager entityManager;
     @Autowired
     private WebApplicationContext context;
     @Autowired
@@ -88,83 +94,100 @@ public class MenuControllerTest extends AbstractTransactionalJUnit4SpringContext
 
     @Test
     public void testCreateMenuItem() throws Exception {
-        String requestBody = "{\"title\": \"New\", \"price\": 1}";
-        int menuItemsCountBefore = countRowsInTableWhere("menuitems", "title = 'New' and price = 1 and category = 1");
-        mockMvc.perform(post("/menu/categories/1/items")
-                        .contentType(APPLICATION_JSON_UTF8)
-                        .content(requestBody)
-                        .session(authenticate()))
+        String title = "New";
+        Long price = 1L;
+        Long categoryId = 1L;
+        String requestBody = String.format(CREATE_MENU_ITEM_JSON_TEMPLATE, title, price);
+        String where = String.format(CREATE_MENU_ITEM_WHERE_TEMPLATE, title, price, categoryId);
+        int menuItemsCountBefore = countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, where);
+        String url = String.format(CREATE_MENU_ITEM_URL_TEMPLATE, categoryId);
+        mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8).content(requestBody).session(authenticate()))
                 .andExpect(status().isCreated());
-        int menuItemsCountAfter = countRowsInTableWhere("menuitems", "title = 'New' and price = 1 and category = 1");
+        int menuItemsCountAfter = countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, where);
         assertEquals(0, menuItemsCountBefore);
         assertEquals(1, menuItemsCountAfter);
     }
 
     @Test
     public void testCreateMenuItemWithoutAuthentication() throws Exception {
-        String requestBody = "{\"title\": \"New\", \"price\": 1}";
-        mockMvc.perform(post("/menu/categories/1/items")
-                        .contentType(APPLICATION_JSON_UTF8)
-                        .content(requestBody))
+        String title = "New";
+        Long price = 1L;
+        Long categoryId = 1L;
+        String requestBody = String.format(CREATE_MENU_ITEM_JSON_TEMPLATE, title, price);
+        String url = String.format(CREATE_MENU_ITEM_URL_TEMPLATE, categoryId);
+        mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8).content(requestBody))
                 .andExpect(status().isForbidden());
-        assertEquals(0, countRowsInTableWhere("menuitems", "title = 'New' and price = 1 and category = 1"));
+        String where = String.format(CREATE_MENU_ITEM_WHERE_TEMPLATE, title, price, categoryId);
+        assertEquals(0, countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, where));
     }
 
     @Test
     public void testCreateMenuItemWithInvalidTitle() throws Exception {
-        String requestBody = "{\"title\": \" \", \"price\": 1}";
-        mockMvc.perform(post("/menu/categories/1/items")
-                        .contentType(APPLICATION_JSON_UTF8)
-                        .content(requestBody)
-                        .session(authenticate()))
+        String invalidTitle = " ";
+        Long price = 1L;
+        Long categoryId = 1L;
+        String requestBody = String.format(CREATE_MENU_ITEM_JSON_TEMPLATE, invalidTitle, price);
+        String url = String.format(CREATE_MENU_ITEM_URL_TEMPLATE, categoryId);
+        mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8).content(requestBody).session(authenticate()))
                 .andExpect(status().isBadRequest());
-        assertEquals(0, countRowsInTableWhere("menuitems", "title = ' ' and price = 1 and category = 1"));
+        String where = String.format(CREATE_MENU_ITEM_WHERE_TEMPLATE, invalidTitle, price, categoryId);
+        assertEquals(0, countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, where));
     }
 
     @Test
     public void testCreateMenuItemWithNotUniqueTitle() throws Exception {
         String notUniqueTitle = menuService.getMenuItem(1L).getTitle();
-        String requestBody = "{\"title\": \"" + notUniqueTitle + "\", \"price\": 1}";
-        mockMvc.perform(post("/menu/categories/1/items")
-                        .contentType(APPLICATION_JSON_UTF8)
-                        .content(requestBody)
-                        .session(authenticate()))
+        Long price = 1L;
+        Long categoryId = 1L;
+        String requestBody = String.format(CREATE_MENU_ITEM_JSON_TEMPLATE, notUniqueTitle, price);
+        String url = String.format(CREATE_MENU_ITEM_URL_TEMPLATE, categoryId);
+        mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8).content(requestBody).session(authenticate()))
                 .andExpect(status().isBadRequest());
-        assertEquals(0, countRowsInTableWhere("menuitems", "title = '" + notUniqueTitle + "' and price = 1 and category = 1"));
+        String where = String.format(CREATE_MENU_ITEM_WHERE_TEMPLATE, notUniqueTitle, price, categoryId);
+        assertEquals(0, countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, where));
     }
 
     @Test
     public void testCreateMenuItemWithInvalidPrice() throws Exception {
-        String requestBody = "{\"title\": \"New\", \"price\": 0}";
-        mockMvc.perform(post("/menu/categories/1/items")
-                        .contentType(APPLICATION_JSON_UTF8)
-                        .content(requestBody)
-                        .session(authenticate()))
+        String title = "New";
+        Long invalidPrice = 0L;
+        Long categoryId = 1L;
+        String requestBody = String.format(CREATE_MENU_ITEM_JSON_TEMPLATE, title, invalidPrice);
+        String url = String.format(CREATE_MENU_ITEM_URL_TEMPLATE, categoryId);
+        mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8).content(requestBody).session(authenticate()))
                 .andExpect(status().isBadRequest());
-        assertEquals(0, countRowsInTableWhere("menuitems", "title = 'New' and price = 0 and category = 1"));
+        String where = String.format(CREATE_MENU_ITEM_WHERE_TEMPLATE, title, invalidPrice, categoryId);
+        assertEquals(0, countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, where));
     }
 
     @Test
     public void testEditMenuItem() throws Exception {
-        String requestBody = "{\"title\": \"Updated\", \"price\": 1, \"category\": {\"id\": 2}}";
-        MenuItem menuItemBefore = menuService.getMenuItem(1L);
-        assertNotEquals("Updated", menuItemBefore.getTitle());
-        assertNotEquals(1, menuItemBefore.getPrice().longValue());
-        assertNotEquals(2, menuItemBefore.getCategory().getId().longValue());
-        mockMvc.perform(put("/menu/items/1")
+        Long menuItemId = 1L;
+        String updatedTitle = "Updated";
+        Long updatedPrice = 1L;
+        Long updatedCategoryId = 2L;
+        String requestBody = String.format(EDIT_MENU_ITEM_JSON_TEMPLATE, updatedTitle, updatedPrice, updatedCategoryId);
+        MenuItem menuItemBefore = menuService.getMenuItem(menuItemId);
+        assertNotEquals(updatedTitle, menuItemBefore.getTitle());
+        assertNotEquals(updatedPrice, menuItemBefore.getPrice());
+        assertNotEquals(updatedCategoryId, menuItemBefore.getCategory().getId());
+        mockMvc.perform(put("/menu/items/" + menuItemId)
                         .contentType(APPLICATION_JSON_UTF8)
                         .content(requestBody)
                         .session(authenticate()))
                 .andExpect(status().isOk());
-        MenuItem menuItemAfter = menuService.getMenuItem(1L);
-        assertEquals("Updated", menuItemAfter.getTitle());
-        assertEquals(1, menuItemAfter.getPrice().longValue());
-        assertEquals(2, menuItemAfter.getCategory().getId().longValue());
+        MenuItem menuItemAfter = menuService.getMenuItem(menuItemId);
+        assertEquals(updatedTitle, menuItemAfter.getTitle());
+        assertEquals(updatedPrice, menuItemAfter.getPrice());
+        assertEquals(updatedCategoryId, menuItemAfter.getCategory().getId());
     }
 
     @Test
     public void testEditMenuItemWithNotExistingId() throws Exception {
-        String requestBody = "{\"title\": \"Updated\", \"price\": 1, \"category\": {\"id\": 2}}";
+        String updatedTitle = "Updated";
+        Long updatedPrice = 1L;
+        Long updatedCategoryId = 2L;
+        String requestBody = String.format(EDIT_MENU_ITEM_JSON_TEMPLATE, updatedTitle, updatedPrice, updatedCategoryId);
         mockMvc.perform(put("/menu/items/0")
                         .contentType(APPLICATION_JSON_UTF8)
                         .content(requestBody)
@@ -174,10 +197,10 @@ public class MenuControllerTest extends AbstractTransactionalJUnit4SpringContext
 
     @Test
     public void testDeleteMenuItem() throws Exception {
-        assertEquals(1, countRowsInTableWhere("menuitems", "id = 1"));
+        assertEquals(1, countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, "id = 1"));
         mockMvc.perform(delete("/menu/items/1").session(authenticate())).andExpect(status().isOk());
         entityManager.flush();
-        assertEquals(0, countRowsInTableWhere("menuitems", "id = 1"));
+        assertEquals(0, countRowsInTableWhere(MENU_ITEMS_TABLE_NAME, "id = 1"));
     }
 
     private MockHttpSession authenticate() throws Exception {
