@@ -64,18 +64,18 @@ public class OrderItem implements Serializable {
         if (this == o) return true;
         if (!(o instanceof OrderItem)) return false;
         OrderItem orderItem = (OrderItem) o;
-        if (id != null ? !id.equals(orderItem.id) : orderItem.id != null) return false;
-        if (order != null ? !order.equals(orderItem.order) : orderItem.order != null) return false;
-        if (menuItem != null ? !menuItem.equals(orderItem.menuItem) : orderItem.menuItem != null) return false;
-        return price != null ? price.equals(orderItem.price) : orderItem.price == null;
+        if (getId() != null ? !getId().equals(orderItem.getId()) : orderItem.getId() != null) return false;
+        if (getOrder() != null ? !getOrder().equals(orderItem.getOrder()) : orderItem.getOrder() != null) return false;
+        if (getMenuItem() != null ? !getMenuItem().equals(orderItem.getMenuItem()) : orderItem.getMenuItem() != null) return false;
+        return getPrice() != null ? getPrice().equals(orderItem.getPrice()) : orderItem.getPrice() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (order != null ? order.hashCode() : 0);
-        result = 31 * result + (menuItem != null ? menuItem.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getOrder() != null ? getOrder().hashCode() : 0);
+        result = 31 * result + (getMenuItem() != null ? getMenuItem().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
         return result;
     }
 

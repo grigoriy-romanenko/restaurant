@@ -63,16 +63,14 @@ public class Category implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Category)) return false;
         Category category = (Category) o;
-        if (id != null ? !id.equals(category.id) : category.id != null) return false;
-        if (title != null ? !title.equals(category.title) : category.title != null) return false;
-        return menuItems != null ? menuItems.equals(category.menuItems) : category.menuItems == null;
+        if (getId() != null ? !getId().equals(category.getId()) : category.getId() != null) return false;
+        return getTitle() != null ? getTitle().equals(category.getTitle()) : category.getTitle() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         return result;
     }
 

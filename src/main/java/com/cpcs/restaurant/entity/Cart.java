@@ -59,16 +59,16 @@ public class Cart implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Cart)) return false;
         Cart cart = (Cart) o;
-        if (id != null ? !id.equals(cart.id) : cart.id != null) return false;
-        if (user != null ? !user.equals(cart.user) : cart.user != null) return false;
-        return menuItems != null ? menuItems.equals(cart.menuItems) : cart.menuItems == null;
+        if (getId() != null ? !getId().equals(cart.getId()) : cart.getId() != null) return false;
+        if (getUser() != null ? !getUser().equals(cart.getUser()) : cart.getUser() != null) return false;
+        return getMenuItems() != null ? getMenuItems().equals(cart.getMenuItems()) : cart.getMenuItems() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
+        result = 31 * result + (getMenuItems() != null ? getMenuItems().hashCode() : 0);
         return result;
     }
 

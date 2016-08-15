@@ -2,6 +2,7 @@ package com.cpcs.restaurant.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ExceptionController {
@@ -28,18 +31,44 @@ public class ExceptionController {
         return exception.getMessage();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseBody
+    public String beanValidationExceptionHandler(ConstraintViolationException exception) {
+        LOGGER.warn(AJAX_EXCEPTION_MSG, exception);
+        return exception.getConstraintViolations().stream()
+                .map(constraintViolation -> constraintViolation.getPropertyPath() + " " + constraintViolation.getMessage())
+                .collect(Collectors.joining(". "));
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NoSuchElementException.class, IllegalArgumentException.class})
-    public String showErrorPage(Exception exception, Model model) {
-        LOGGER.warn(ERROR_PAGE_MSG, exception);
-        model.addAttribute("exception", exception);
-        return "error";
+    @ExceptionHandler(NoSuchElementException.class)
+    public String notFound(Exception exception, Model model) {
+        return showErrorPage(exception, model);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String badRequest(Exception exception, Model model) {
+        return showErrorPage(exception, model);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public String forbidden(Exception exception, Model model) {
+        return showErrorPage(exception, model);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public void exceptionHandler(Exception exception) {
         LOGGER.warn(UNEXPECTED_EXCEPTION_MSG, exception);
+    }
+
+    private String showErrorPage(Exception exception, Model model) {
+        LOGGER.warn(ERROR_PAGE_MSG, exception);
+        model.addAttribute("exception", exception);
+        return "error";
     }
 
 }

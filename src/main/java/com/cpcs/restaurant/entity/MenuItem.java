@@ -68,18 +68,18 @@ public class MenuItem implements Serializable {
         if (this == o) return true;
         if (!(o instanceof MenuItem)) return false;
         MenuItem menuItem = (MenuItem) o;
-        if (id != null ? !id.equals(menuItem.id) : menuItem.id != null) return false;
-        if (title != null ? !title.equals(menuItem.title) : menuItem.title != null) return false;
-        if (category != null ? !category.equals(menuItem.category) : menuItem.category != null) return false;
-        return price != null ? price.equals(menuItem.price) : menuItem.price == null;
+        if (getId() != null ? !getId().equals(menuItem.getId()) : menuItem.getId() != null) return false;
+        if (getTitle() != null ? !getTitle().equals(menuItem.getTitle()) : menuItem.getTitle() != null) return false;
+        if (getCategory() != null ? !getCategory().equals(menuItem.getCategory()) : menuItem.getCategory() != null) return false;
+        return getPrice() != null ? getPrice().equals(menuItem.getPrice()) : menuItem.getPrice() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
+        result = 31 * result + (getCategory() != null ? getCategory().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
         return result;
     }
 

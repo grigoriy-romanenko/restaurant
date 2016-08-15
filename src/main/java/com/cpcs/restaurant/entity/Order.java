@@ -68,25 +68,22 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        if (user != null ? !user.equals(order.user) : order.user != null) return false;
-        if (date != null ? !date.equals(order.date) : order.date != null) return false;
-        return orderItems != null ? orderItems.equals(order.orderItems) : order.orderItems == null;
+        if (getId() != null ? !getId().equals(order.getId()) : order.getId() != null) return false;
+        if (getUser() != null ? !getUser().equals(order.getUser()) : order.getUser() != null) return false;
+        return getDate() != null ? getDate().equals(order.getDate()) : order.getDate() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (orderItems != null ? orderItems.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
+        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return String.format("Order{id=%s, user=%s, date=%s, orderItems=%s}",
-                id, user, date, orderItems);
+        return String.format("Order{id=%s, user=%s, date=%s}", id, user, date);
     }
 
 }

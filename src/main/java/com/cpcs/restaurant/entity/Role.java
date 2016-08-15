@@ -47,14 +47,14 @@ public class Role implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role = (Role) o;
-        if (id != null ? !id.equals(role.id) : role.id != null) return false;
-        return title != null ? title.equals(role.title) : role.title == null;
+        if (getId() != null ? !getId().equals(role.getId()) : role.getId() != null) return false;
+        return getTitle() != null ? getTitle().equals(role.getTitle()) : role.getTitle() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         return result;
     }
 
