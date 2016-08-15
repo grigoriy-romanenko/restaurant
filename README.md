@@ -1,8 +1,13 @@
 # restaurant
 
-How to run:
+##How to run
+
 mvn tomcat7:run
 
-Credentials {username:password}:
+##Credentials
+
+{username:password}
+
 admin:admin
+
 user:user
